@@ -1,6 +1,6 @@
 /* =Spatial directions
  * ------------------------------------------------------------ */
-World.direction = new (function() { /* jshint ignore:line */
+Direction = new (function() { /* jshint ignore:line */
 	this.n	= new Vector( 0,  1); this.up		= this.n;
 	this.ne	= new Vector( 1,  1);
 	this.e	= new Vector( 1,  0); this.right	= this.e;
@@ -10,26 +10,26 @@ World.direction = new (function() { /* jshint ignore:line */
 	this.w	= new Vector(-1,  0); this.left		= this.w;
 	this.nw	= new Vector(-1,  1);
 })();
-World.directions = [ "n", "ne", "e", "se", "s", "sw", "w", "nw" ];
-World.directions.vectors = [ new Vector(0, 1), new Vector(1, 1),
+Directions = [ "n", "ne", "e", "se", "s", "sw", "w", "nw" ];
+Directions.vectors = [ new Vector(0, 1), new Vector(1, 1),
 	 new Vector(1, 0), new Vector(1, -1), new Vector(0, -1),
 	 new Vector(-1, -1), new Vector(-1, 0), new Vector(-1, 1) ];
 
-World.direction.vectorToDirectionName = function(vector) {
-	for (var i = 0; i < World.directions.vectors.length; ++i)
-		if (World.directions.vectors[i].equal(vector))
-			return World.directions[i];
+Direction.vectorToDirectionName = function(vector) {
+	for (var i = 0; i < Directions.vectors.length; ++i)
+		if (Directions.vectors[i].equal(vector))
+			return Directions[i];
 };
 
-World.direction.vectorToDirection = function(vector) {
+Direction.vectorToDirection = function(vector) {
 	return new Vector(vector.x ? 1 : 0, vector.y ? 1 : 0);
 };
 
-World.direction.vectorToDistance = function(vector) {
+Direction.vectorToDistance = function(vector) {
 	return vector.x;
 };
 
-World.direction.random = function() {
+Direction.random = function() {
 	var x, y, vec;
 	while (!x && !y) {
 		x = randomInt(-1, 1); 
@@ -38,25 +38,25 @@ World.direction.random = function() {
 	return new Vector(x, y);
 };
 
-World.direction.forEach = function(callback, thisArg) {
+Direction.forEach = function(callback, thisArg) {
 	var self = this;
-	World.directions.forEach(
+	Directions.forEach(
 		function(str) { callback(self[str], str, self); }, thisArg);
 };
 
 /* Iterate through directions by gradually going farther
  *  from 'initialDirection' */
-World.direction.forEachFrom =
+Direction.forEachFrom =
 					function(initialDirection, callback, thisArg) {
-	var initI = World.directions.indexOf(
-			 World.direction.vectorToDirectionName(initialDireciton));
+	var initI = Directions.indexOf(
+			 Direction.vectorToDirectionName(initialDireciton));
 	var curI = initI;
 
 	var upI, loI;
 	function incrementUp() {
-		return upI += upI < World.directions.length ?  1 : 0; }
+		return upI += upI < Directions.length ?  1 : 0; }
 	function incrementLo() {
-		return loI -= loI > 0 ? 1 : World.directions.length; }
+		return loI -= loI > 0 ? 1 : Directions.length; }
 
 	while (upI !== initI && loI !== initI) {
 		callback.call(thisArg,
@@ -66,9 +66,9 @@ World.direction.forEachFrom =
 	}
 };
 
-World.direction.some = function(callback, thisArg) {
+Direction.some = function(callback, thisArg) {
 	var self = this;
-	return World.directions.some(
+	return Directions.some(
 		function(str) {
 			return callback.call(thisArg, self[str], str, self); },
 			thisArg);

@@ -39,7 +39,7 @@ Ai.prototype.moveToward = function(elementType, defaultDirection) {
 		 *  'defaultDirection' or a random valid one */
 		if (defaultDirection === "undefined") {
 			defaultDirection = this.actor.view.reacheable();
-			World.direction.random();
+			Direction.random();
 		}
 		return null; /* No element in sight */
 	}
@@ -59,6 +59,6 @@ Ai.prototype.moveAlong = function(elementType, defaultDirection) {
 	for (var resultingDistance = 1;
 		 !direction && resultingDistance <= this.sight; ++resultingDistance) {
 		var potentialVec = moveVec;
-		World.direction.forEachFrom(setDirIfAllowsTouching);
+		Direction.forEachFrom(setDirIfAllowsTouching);
 	}
 };

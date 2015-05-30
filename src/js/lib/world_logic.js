@@ -36,11 +36,11 @@ World.Actions = function(world) {
 				if (Math.abs(direction.x) > 1) {
 					distance = Math.abs(direction.x);
 					direction =
-						World.direction.vectorToDirection(direction);
+						Direction.vectorToDirection(direction);
 				} else if (Math.abs(direction.y) > 1) {
 					distance = Math.abs(direction.y);
 					direction =
-						World.direction.vectorToDirection(direction);
+						Direction.vectorToDirection(direction);
 				} else {
 					distance = actor.speed; }
 			}

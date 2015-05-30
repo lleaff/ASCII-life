@@ -13,7 +13,7 @@ World.View.prototype.New = function(vector) {
 
 World.View.prototype.isTrapped = function() {
 	var exit = 0;
-	return !World.direction.some(function(dir) {
+	return !Direction.some(function(dir) {
 		var cell = this.world.grid.get(this.position.plus(dir));
 		return (cell && !cell.some(function(el) { 
 			return el.solid; })) || false;
@@ -29,7 +29,7 @@ World.View.prototype.isOn = function(elementType) {
  *  of 'elementType' */
 World.View.prototype.reachable = function(elementType, distance) {
 	var vectors = [];
-	World.direction.forEach(function(direction) {
+	Direction.forEach(function(direction) {
 		vectors.concat(this.look(direction, distance || this.actor.speed)
 													   .reachable(elementType));
 	}, this);
@@ -41,7 +41,7 @@ World.View.prototype.reachable = function(elementType, distance) {
 World.View.prototype.visible = function(elementType) {
 	var vectors = [];
 	var self;
-	World.direction.forEach(function(direction) {
+	Direction.forEach(function(direction) {
 		vectors.concat(self.look(direction).visible(elementType));
 	});
 	return vectors;
