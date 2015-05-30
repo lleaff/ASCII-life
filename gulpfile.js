@@ -65,7 +65,8 @@ package.pretty = {
 	author: package.author,
 };
 
-var mainJs = 'main.js';
+/* Script to be appended to the very end of <body> */
+var jsExecInsert = 'main()';
 
 /* =Tasks
  * ------------------------------------------------------------ */
@@ -113,6 +114,8 @@ gulp.task('html', function() {
 	return gulp.src(basePaths.source+'*html')
 		.pipe(replace('$Title', package.pretty.name))
 		.pipe(replace('scriptManager.js', jsTagsInsert))
+		.pipe(replace('</body>', '\t<script>'+
+					  jsExecInsert+'</script>\n</body>'))
 		.pipe(gulp.dest(basePaths.build));
 });
 
