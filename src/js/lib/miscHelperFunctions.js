@@ -23,3 +23,14 @@ function randomInt(lo, up) {
 function randomArrayElement(arr) {
 	return randomInt(0, arr.length - 1);
 }
+
+/* =Assert
+ * ------------------------------------------------------------ */
+function assert(condition, failureString) {
+	if (!condition) {
+		if (window.DEBUG)
+			throw new Error(failureString);
+		else
+			console.log("ERROR: "+failureString);
+	}
+}
