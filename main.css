@@ -1,0 +1,16 @@
+/* Copyright 2015 lleaff
+This file is part of ASCII life.
+
+ASCII life is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+ASCII life is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with ASCII life.  If not, see <http://www.gnu.org/licenses/>.
+ */body{background-color:#262626;color:#f0f0f0;margin:0;padding:0;height:100vh}#worldsContainer{font-size:1.5em;text-align:center;width:100%;position:absolute;top:40%;transform:translateY(-40%)}.worldContainer{height:auto;margin:1em 1.3em;width:auto;display:inline-block;vertical-align:bottom}.world{font-family:Monaco,monospace;line-height:.83em!important;font-size:.6em;margin:0;background:#374135;color:#aaa}.colorWall{color:#262520}.colorNature{color:#5a5}.colorAnimal{color:#8f6b49}.colorCharacter{color:#aa5}
