@@ -26,7 +26,7 @@ Direction.vectorToDirection = function(vector) {
 };
 
 Direction.vectorToDistance = function(vector) {
-	return vector.x;
+	return Math.max(vector.x, vector.y);
 };
 
 Direction.random = function() {
