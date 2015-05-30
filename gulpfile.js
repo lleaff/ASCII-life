@@ -11,6 +11,7 @@ var sourcemaps = require('gulp-sourcemaps'); /* sourcemaps */
 var insert = require('gulp-insert');
 var replace = require('gulp-replace');
 var minifyCss = require('gulp-minify-css');
+var ghPages = require('gulp-gh-pages');
 
 var debug = require('gulp-debug'); /* DEBUG */
 
@@ -71,9 +72,14 @@ var jsExecInsert = 'main()';
 /* =Tasks
  * ------------------------------------------------------------ */
 
-gulp.task('default', ['deploy']);
+gulp.task('default', ['build']);
 
-gulp.task('deploy', ['build', 'license']);
+gulp.task('deploy', ['buildFull'], function() {
+	return gulp.src(basePaths.build+'**/*')
+		.pipe(ghPages());
+});
+
+gulp.task('buildFull', ['build', 'license']);
 
 gulp.task('build', ['js', 'css', 'html']);
 
@@ -134,7 +140,8 @@ gulp.task('license', ['js', 'css', 'html' ], function() {
 		gulp.src(basePaths.build+'*.css')
 			.pipe(insert.prepend(commentString(headerText, "css"))),
 		gulp.src(basePaths.build+'*.html')
-			.pipe(insert.prepend(commentString(headerText, "html")))
+			.pipe(replace(
+				'<!DOCTYPE html>', '<!DOCTYPE html>\n'+commentString(headerText, "html")))
 	).pipe(gulp.dest(basePaths.build));
 
 });
