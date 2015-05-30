@@ -1,9 +1,9 @@
 /* Gulp operations */
 var gulp = require('gulp');
 var es = require('event-stream');
+var gutil = require('gulp-util');
 var merge = require('merge-stream');
 var order = require('gulp-order');
-var gulpif = require('gulp-if');
 /* Content operations */
 var concat = require('gulp-concat'); /* sourcemaps */
 var uglify = require('gulp-uglify'); /* sourcemaps */
@@ -65,7 +65,7 @@ package.pretty = {
 	author: package.author,
 };
 
-var mainJs = 'all.js';
+var mainJs = 'main.js';
 
 /* =Tasks
  * ------------------------------------------------------------ */
@@ -79,7 +79,6 @@ gulp.task('build', ['js', 'css', 'html']);
 gulp.task('js', function() {
 	var jsTasks = [];
 	Object.keys(jsFiles).forEach(function(group) {
-		console.log(jsFiles[group].paths);//DEBUG
 		jsTasks.push(
 			gulp.src(jsFiles[group].paths)
 			/* Sourcemaps-compatible operations */
@@ -100,9 +99,20 @@ gulp.task('css', function() {
 });
 
 gulp.task('html', function() {
+	/* Insert script tags in place of original script */
+	var jsTagsInsert = "";
+	for (var i = 0, groups = Object.keys(jsFiles);
+								 i < groups.length; ++i) {
+		if (i > 0) {
+			jsTagsInsert += "\t\t<script src=\""; }
+		jsTagsInsert += jsFiles[groups[i]].out;
+		if (i < groups.length - 1) {
+			jsTagsInsert += "\"></script>\n"; }
+	}
+
 	return gulp.src(basePaths.source+'*html')
 		.pipe(replace('$Title', package.pretty.name))
-		.pipe(replace('scriptManager.js', mainJs))
+		.pipe(replace('scriptManager.js', jsTagsInsert))
 		.pipe(gulp.dest(basePaths.build));
 });
 
