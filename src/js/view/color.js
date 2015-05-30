@@ -32,8 +32,9 @@ Output.processColorLegend = function(colorLegend, legend) {
 
 /* 'colorLegend' must be a set of character: className */
 Output.appendTaggedTextTo = function(
-	element, string, colorLegend, cssClassPrefix, cssClassNameOptions) {
-	if (element === undefined) element = document.createElement("div");
+	htmlElem, string, colorLegend, cssClassPrefix, cssClassNameOptions) {
+	if (htmlElem === undefined)
+		htmlElem = document.createElement("div");
 
 	function prependClassPrefix(cssClassName) {
 		if (cssClassNameOptions.capitalize) {
@@ -53,7 +54,7 @@ Output.appendTaggedTextTo = function(
 		} else {
 			tag = document.createTextNode(str);
 		}
-		element.appendChild(tag);
+		htmlElem.appendChild(tag);
 	}
 
 	/* Go over each character in the string */
@@ -66,6 +67,6 @@ Output.appendTaggedTextTo = function(
 		}
 	}
 
-	return element;
+	return htmlElem;
 };
 
