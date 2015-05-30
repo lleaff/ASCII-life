@@ -1,6 +1,10 @@
+/* Gulp operations */
 var gulp = require('gulp');
+var es = require('event-stream');
 var merge = require('merge-stream');
 var order = require('gulp-order');
+var gulpif = require('gulp-if');
+/* Content operations */
 var concat = require('gulp-concat'); /* sourcemaps */
 var uglify = require('gulp-uglify'); /* sourcemaps */
 var sourcemaps = require('gulp-sourcemaps'); /* sourcemaps */
@@ -10,23 +14,24 @@ var minifyCss = require('gulp-minify-css');
 
 var debug = require('gulp-debug'); /* DEBUG */
 
-var package = require('./package.json');
-
 /* =Variables
  * ------------------------------------------------------------ */
+var package = require('./package.json');
+
 var basePaths = {
-	source: 'src',
-	build: 'build',
+	source: 'src/',
+	build: 'build/',
 };
 
 var paths = {
-	js: basePaths.source+'/js',
+	js: basePaths.source+'js/',
 	css: basePaths.source,
 	html: basePaths.source,
+	sourcemaps: '../sourcemaps/',
 };
 
 var jsFiles = {
-	framework: [
+	lib: [
 		'miscHelperFunctions.js',
 		'vector.js',
 		'grid.js',
@@ -35,24 +40,24 @@ var jsFiles = {
 		'world_perception.js',
 		'world_logic.js',
 		'ai.js',
-		'color.js',
-		'animate.js'
 	],
 	data: [
 		'legend.js',
 		'plans.js',
 	],
-	page: [
+	view: [
+		'color.js',
+		'animate.js',
 		'main.js'
 	]
 };
-jsFiles.framework.out = "asciilife.js";
+jsFiles.lib.out = "asciilife.js";
 jsFiles.data.out = "data.js";
-jsFiles.page.out = "main.js";
+jsFiles.view.out = "main.js";
 /* Set jsFiles.<group>.paths */
 Object.keys(jsFiles).forEach(function(group) {
 	jsFiles[group].paths = jsFiles[group].map(function(fileName) {
-		return basePaths.js+'/'+fileName; });
+		return paths.js+group+'/'+fileName; });
 });
 
 package.pretty = {
@@ -72,31 +77,30 @@ gulp.task('deploy', ['build', 'license']);
 gulp.task('build', ['js', 'css', 'html']);
 
 gulp.task('js', function() {
-	return merge(
-		gulp.src(jsFiles.framework.paths),
-		gulp.src(jsFiles.data.paths),
-		gulp.src(jsFiles.page.paths)
-			.pipe(insert.append('main()'))
-	)
-			/* Order files as in 'jsFiles' object */
-			.pipe(order(jsFiles.framework.concat(jsFiles.data)
-											.concat(jsFiles.page)))
+	var jsTasks = [];
+	Object.keys(jsFiles).forEach(function(group) {
+		console.log(jsFiles[group].paths);//DEBUG
+		jsTasks.push(
+			gulp.src(jsFiles[group].paths)
 			/* Sourcemaps-compatible operations */
 			.pipe(sourcemaps.init())
-				.pipe(concat(mainJs))
+				.pipe(concat(jsFiles[group].out))
 				.pipe(uglify())
-			.pipe(sourcemaps.write('../sourcemaps'))
-			.pipe(gulp.dest(basePaths.build));
+			.pipe(sourcemaps.write(paths.sourcemaps))
+			.pipe(gulp.dest(basePaths.build))
+		);
+	});
+	return es.concat.apply(null, jsTasks);
 });
 
 gulp.task('css', function() {
-	return gulp.src(basePaths.source+'/*css')
+	return gulp.src(basePaths.source+'*css')
 		.pipe(minifyCss())
 		.pipe(gulp.dest(basePaths.build));
 });
 
 gulp.task('html', function() {
-	return gulp.src(basePaths.source+'/*html')
+	return gulp.src(basePaths.source+'*html')
 		.pipe(replace('$Title', package.pretty.name))
 		.pipe(replace('scriptManager.js', mainJs))
 		.pipe(gulp.dest(basePaths.build));
@@ -112,11 +116,11 @@ gulp.task('license', ['js', 'css', 'html' ], function() {
 	var headerText = copyrightText + licenseText;
 
 	return merge(
-		gulp.src(basePaths.build+'/*.js')
+		gulp.src(basePaths.build+'*.js')
 			.pipe(insert.prepend(commentString(headerText, "js"))),
-		gulp.src(basePaths.build+'/*.css')
+		gulp.src(basePaths.build+'*.css')
 			.pipe(insert.prepend(commentString(headerText, "css"))),
-		gulp.src(basePaths.build+'/*.html')
+		gulp.src(basePaths.build+'*.html')
 			.pipe(insert.prepend(commentString(headerText, "html")))
 	).pipe(gulp.dest(basePaths.build));
 
