@@ -1,3 +1,6 @@
+/* --------------------------------- *
+ *  /!\ Use only in development /!\
+ * --------------------------------- */
 (function loadScripts(scripts, callback) {
 	var body = document.body;
 	if (callback === undefined) callback = "main";
@@ -16,19 +19,19 @@
 	}
 	loadScript(scripts);
 })([
-	"miscHelperFunctions.js",
-	"vector.js",
-	"grid.js",
-	"world.js",
-	"world_logic.js",
-	"world_directions.js",
-	"world_perception.js",
-	"ai.js",
-	"legend.js",
-	"color.js",
-	"plans.js",
-	"animate.js",
-	"main.js"
+	"lib/miscHelperFunctions.js",
+	"lib/vector.js",
+	"lib/grid.js",
+	"lib/world.js",
+	"lib/world_logic.js",
+	"lib/world_directions.js",
+	"lib/world_perception.js",
+	"lib/ai.js",
+	"data/legend.js",
+	"view/color.js",
+	"data/plans.js",
+	"view/animate.js",
+	"view/main.js"
 ].map(function(scriptName) {
 	return "js/"+scriptName;
 }));
