@@ -2,15 +2,17 @@
   "name": "ASCII-life",
   "version": "0.0.1",
   "description": "ASCII life simulation",
-  "repository":{
-	  "type": "git",
-	  "url": "https://github.com/lleaff/ASCII-life.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lleaff/ASCII-life.git"
   },
+  "private": "true",
   "directories": {
     "doc": "doc",
-	"lib": "src/lib"
+    "lib": "src/lib"
   },
   "devDependencies": {
+    "event-stream": "^3.3.1",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
     "gulp-debug": "^2.0.1",
@@ -21,6 +23,7 @@
     "gulp-replace": "^0.5.3",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
+    "gulp-util": "^3.0.5",
     "merge-stream": "^0.1.7"
   },
   "author": "lleaff",
