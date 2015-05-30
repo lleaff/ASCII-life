@@ -15,10 +15,16 @@ Directions.vectors = [ new Vector(0, 1), new Vector(1, 1),
 	 new Vector(1, 0), new Vector(1, -1), new Vector(0, -1),
 	 new Vector(-1, -1), new Vector(-1, 0), new Vector(-1, 1) ];
 
-Direction.vectorToDirectionName = function(vector) {
+Directions._indexOf = function(direction) {
 	for (var i = 0; i < Directions.vectors.length; ++i)
-		if (Directions.vectors[i].equal(vector))
-			return Directions[i];
+		if (Directions.vectors[i].equal(direction))
+			return i;
+	assert(false,
+		   "Directions._indexOf: Invalid direction: "+direction);
+};
+
+Direction.vectorToDirectionName = function(directionVector) {
+	return Directions[Directions._indexOf(directionVector)];
 };
 
 Direction.vectorToDirection = function(vector) {
