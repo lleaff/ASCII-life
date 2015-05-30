@@ -35,6 +35,16 @@ Direction.vectorToDistance = function(vector) {
 	return Math.max(vector.x, vector.y);
 };
 
+Direction.rotate = function(direction, degree) {
+	var resolution = 45;
+	var shift = degree / resolution;
+	assert(shift - (shift>>0) === 0,
+		   "Direction.rotate: "+"'degree' ("+degree+
+				") must be a multiple of "+resolution);
+	return Directions.vectors[(Directions._indexOf(direction) + shift +
+		 Directions.length) % Directions.length];
+};
+
 Direction.random = function() {
 	var x, y, vec;
 	while (!x && !y) {
