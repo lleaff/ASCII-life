@@ -48,17 +48,5 @@ Ai.prototype.moveToward = function(elementType, defaultDirection) {
 Ai.prototype.moveAlong = function(elementType, defaultDirection) {
 	if (!defaultDirection) defaultDirection = this.dir;
 
-	function setDirIfAllowsTouching(direction) {
-		var reachable = this.view.New(potentialDirection.plus(moveVec))
-			.reachable(elementType, resultingDistance);
-		moveVec = World.View.closest(reachable);
-	}
-
-	/* Find direction that  */
-	var moveVec;
-	for (var resultingDistance = 1;
-		 !direction && resultingDistance <= this.sight; ++resultingDistance) {
-		var potentialVec = moveVec;
-		Direction.forEachFrom(setDirIfAllowsTouching);
-	}
+	this.moveToward("obstacle", defaultDirection);
 };

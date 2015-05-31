@@ -79,9 +79,9 @@ var legend = (function() {
 	function wallHuggerAct() {
 		if (!this.view.isTrapped()) {
 			if (!this.dir) this.dir = Direction.random();
-			if (!this.view.look(this.dir).possibleMoves()[0]) {
-
-			}
+			//if (!this.view.look(this.dir).possibleMoves()[0]) {
+			this.ai.moveAlong(this.dir);
+			//}
 		}
 	}
 

@@ -29,9 +29,11 @@ World.View.prototype.isOn = function(elementType) {
  *  of 'elementType' */
 World.View.prototype.reachable = function(elementType, distance) {
 	var vectors = [];
+	var self = this;
 	Direction.forEach(function(direction) {
-		vectors.concat(this.look(direction, distance || this.actor.speed)
-													   .reachable(elementType));
+		vectors = vectors.concat(
+			self.look(direction, distance || self.actor.speed)
+											   .reachable(elementType));
 	}, this);
 	return vectors;
 };
@@ -133,10 +135,10 @@ World.View.Image.prototype.possibleMoves = function() {
  * ------------------------------------------------------------ */
 World.View.closest = function(vectors) {
 	return vectors.reduce(function(a, b) {
-		return a ? (a.x+a.y < b.x+b.y ? a : b) : b; });
+		return a ? (a.x+a.y < b.x+b.y ? a : b) : b; }, null);
 };
 
 World.View.farthest = function(vectors) {
 	return vectors.reduce(function(a, b) {
-		return a ? (a.x+a.y > b.x+b.y ? a: b) : b; });
+		return a ? (a.x+a.y > b.x+b.y ? a: b) : b; }, null);
 };
