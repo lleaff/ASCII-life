@@ -23,6 +23,7 @@
 	"lib/vector.js",
 	"lib/grid.js",
 	"lib/world.js",
+	"lib/world_elements.js",
 	"lib/world_logic.js",
 	"lib/world_directions.js",
 	"lib/world_perception.js",

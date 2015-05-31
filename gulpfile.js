@@ -37,6 +37,7 @@ var jsFiles = {
 		'vector.js',
 		'grid.js',
 		'world.js',
+		'world_elements.js',
 		'world_directions.js',
 		'world_perception.js',
 		'world_logic.js',
