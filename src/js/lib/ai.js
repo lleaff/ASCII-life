@@ -30,23 +30,13 @@ Ai.prototype.keepMoving = function() {
 Ai.prototype.moveToward = function(elementType, defaultDirection) {
 	var reachable = this.actor.view.reachable(elementType);
 	shuffleArray(reachable); /* Avoid predictable resolution */
-	var closestPos = World.View.closest(reachable);
-	if (closestPos) {
-		/* Moving toward element */
-		return this.world.actions.move(this.actor, closestPos);
-	} else {
-		/* If no element of 'elementType' is in sight, move in specified
-		 *  'defaultDirection' or a random valid one */
-		if (defaultDirection === "undefined") {
-			defaultDirection = this.actor.view.reacheable();
-			Direction.random();
-		}
-		return null; /* No element in sight */
-	}
+	var moveVec = World.View.closest(reachable) || defaultDirection;
+	var res = //DEBUG (return)
+		 this.world.actions.move(this.actor, moveVec);
+	//if (this.actor.name === "wallHugger") console.log("res",res); return res;//DEBUG
 };
 
 Ai.prototype.moveAlong = function(elementType, defaultDirection) {
-	if (!defaultDirection) defaultDirection = this.dir;
-
-	this.moveToward("obstacle", defaultDirection);
+	if (!defaultDirection)
+		defaultDirection = this.dir || Direction.random();
 };
