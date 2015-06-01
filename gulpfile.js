@@ -86,9 +86,17 @@ gulp.task('build', ['js', 'css', 'html']);
 
 gulp.task('js', function() {
 	var jsTasks = [];
+	var mainPath = jsFiles.view.paths[jsFiles.view.paths.length - 1];
 	Object.keys(jsFiles).forEach(function(group) {
 		jsTasks.push(
-			gulp.src(jsFiles[group].paths)
+			/* Wrap main.js file content in function named 'main' */
+			(group === "view" ?
+			merge(
+					gulp.src(jsFiles.view.paths.concat(['!'+mainPath])),
+					gulp.src(mainPath)
+						.pipe(insert.wrap('function main() {\n', '}'))
+			) :
+				gulp.src(jsFiles[group].paths))
 			/* Sourcemaps-compatible operations */
 			.pipe(sourcemaps.init())
 				.pipe(concat(jsFiles[group].out))

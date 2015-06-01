@@ -13,8 +13,7 @@
 		body.appendChild(script);
 		script.setAttribute("src", source);
 		var scriptCallback = scripts[0] ?
-			loadScript.bind(null, scripts) :
-			function() {window[callback]();};
+			loadScript.bind(null, scripts) : null;
 		script.addEventListener("load", scriptCallback);
 	}
 	loadScript(scripts);
