@@ -45,12 +45,12 @@ function toggleAnimation(worlds) {
 	if (worlds.length / 2 < stopped) startAnimation(worlds);
 	else stopAnimation(worlds);
 }
-
-function stepAnimation(worlds, range) {
+function stepAnimation(worlds, turns) {
 	worlds = [].concat(worlds);
+	if (turns === undefined) turns = 1;
 	worlds.forEach(function(world) {
 		stopAnimation(world);
-		world.tick(world);
+		for (var i = 0; i < turns; ++i) { world.tick(); }
 	});
 }
 
