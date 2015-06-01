@@ -18,22 +18,34 @@ var worlds = Data.plans.map(function(plan) {
 
 });
 
-/* Control animation */
-function startAnimation(world) {
-	if (!world.intervalId)
-		world.intervalId = setInterval(
-			world.tick.bind(world), updateTime*1000);
+/* =Control animation
+ * ------------------------------------------------------------ */
+function startAnimation(worlds) {
+	worlds = [].concat(worlds);
+	worlds.forEach(function(world) {
+		if (!world.intervalId)
+			world.intervalId = setInterval(
+				world.tick.bind(world), updateTime*1000);
+	});
 }
-function stopAnimation(world) {
-	clearInterval(world.intervalId);
-	world.intervalId = null;
+function stopAnimation(worlds) {
+	worlds = [].concat(worlds);
+	worlds.forEach(function(world) {
+		clearInterval(world.intervalId);
+		world.intervalId = null;
+	});
 }
-function toggleAnimation(world) {
-	if (!world.intervalId) startAnimation(world);
-	else stopAnimation(world);
+function toggleAnimation(worlds) {
+	worlds = [].concat(worlds);
+	/* Decide whether to stop all or start all depending on worlds'
+	 *  state */
+	var stopped = 0;
+	worlds.forEach(function(world) {
+		if (!world.intervalId) ++stopped; });
+	if (worlds.length / 2 < stopped) startAnimation(worlds);
+	else stopAnimation(worlds);
 }
 
-/* Start animation */
-worlds.forEach(function(world) {
-	startAnimation(world);
-});
+/* [ Start animation ]
+ * ============================== */
+startAnimation(worlds);
