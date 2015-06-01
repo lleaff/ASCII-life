@@ -46,6 +46,14 @@ function toggleAnimation(worlds) {
 	else stopAnimation(worlds);
 }
 
+function stepAnimation(worlds, range) {
+	worlds = [].concat(worlds);
+	worlds.forEach(function(world) {
+		stopAnimation(world);
+		world.tick(world);
+	});
+}
+
 /* [ Start animation ]
  * ============================== */
 startAnimation(worlds);
@@ -54,11 +62,12 @@ startAnimation(worlds);
  * ------------------------------------------------------------ */
 function keyEvent(event) {
 	var keyCh = String.fromCharCode(event.keyCode || event.charCode);
-
 	/* Actions */
 	switch(keyCh) {
 		case " ": /* [space] */
 			toggleAnimation(worlds); break;
+		case "'": /* [rightArrow] */
+			stepAnimation(worlds); break;
 	}
 }
 
