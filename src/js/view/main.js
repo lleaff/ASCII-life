@@ -2,21 +2,25 @@ var updateTime = 0.1; /* seconds */
 
 var worldsContainer = document.getElementById("worldsContainer");
 
-var worlds = Data.plans.map(function(plan) {
-	var container = document.createElement("DIV");
-	container.setAttribute("class", "worldContainer");
+var worlds = initiateWorlds(Data.plans);
+
+function initiateWorlds(plans) {
+	plans = [].concat(plans);
+	return plans.map(function(plan) {
+		var container = document.createElement("DIV");
+		container.setAttribute("class", "worldContainer");
 
 
-	var worldInstance =
-		 new LivingWorld(plan, legend, colorLegend, container);
+		var worldInstance =
+			 new LivingWorld(plan, legend, colorLegend, container);
 
-	worldInstance.surface.overlay.addEventListener("click",
-						 toggleAnimation.bind(null, worldInstance));
+		worldInstance.surface.overlay.addEventListener("click",
+							 toggleAnimation.bind(null, worldInstance));
 
-	worldsContainer.appendChild(container);
-	return worldInstance;
-
-});
+		worldsContainer.appendChild(container);
+		return worldInstance;
+	});
+}
 
 /* =Control animation
  * ------------------------------------------------------------ */
@@ -68,6 +72,8 @@ function keyEvent(event) {
 			toggleAnimation(worlds); break;
 		case "'": /* [rightArrow] */
 			stepAnimation(worlds); break;
+		case "R": case "r":
+			worlds = worlds.concat(initiateWorlds(Data.plans)); break;
 	}
 }
 
