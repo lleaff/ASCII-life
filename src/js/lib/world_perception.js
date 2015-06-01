@@ -20,20 +20,20 @@ World.View.prototype.isTrapped = function() {
 	}, this);
 };
 
-World.View.prototype.isOn = function(elementType) {
-	return World.Elements.hasType(
-		this.world.grid.get(this.position), elementType);
+World.View.prototype.isOn = function(elementTypes) {
+	return Elems.hasTypes(
+		this.world.grid.get(this.position), elementTypes);
 };
 
 /* Returns vectors to positions in all directions containing element
- *  of 'elementType' */
-World.View.prototype.reachable = function(elementType, distance) {
+ *  matching 'traits' */
+World.View.prototype.reachable = function(traits, distance) {
 	var vectors = [];
 	var self = this;
 	Direction.forEach(function(direction) {
 		vectors = vectors.concat(
 			self.look(direction, distance || self.actor.speed)
-											   .reachable(elementType));
+											   .reachable(traits));
 	}, this);
 	return vectors;
 };
@@ -84,13 +84,13 @@ Object.defineProperty(World.View.Image.prototype, "_addDirection", {
 		vectorsArray.push(this.direction.plus(new Vector(i, i))); }
 }); 
 
-/* Returns vectors to positions containing element of 'elementTypes' */
-World.View.Image.prototype.reachable = function(elementTypes) {
+/* Returns vectors to positions containing element matching 'traits' */
+World.View.Image.prototype.reachable = function(traits) {
 	var vectors = [];
 	for (var i = 0; i < this.image.length; ++i) {
-		if (Elems.hasTypes(this.image[i], elementTypes))
+		if (Elems.match(this.image[i], traits))
 			this._addDirection(vectors, i);
-		else if (Elems.isSolid(this.image[i]))
+		if (Elems.isSolid(this.image[i]))
 			break;
 	}
 	return vectors;
