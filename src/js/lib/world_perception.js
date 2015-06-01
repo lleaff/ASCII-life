@@ -77,20 +77,6 @@ World.View.Image = function(image, direction) {
 	this.direction = direction;
 };
 
-World.View.Image.prototype.isSolid = function(index) {
-	function solidTest(elements) {
-		return elements.some(function(el) {
-			return !!el.solid; });
-	}
-	if (index === undefined) { /* Test all cells in image */
-		for (var i = 0; i < this.image.length; ++i)
-			if (solidTest(this.image[i])) return true;
-	} else {
-		if (solidTest(this.image[index])) return true;
-	}
-	return false;
-};
-
 /* Helper function */
 Object.defineProperty(World.View.Image.prototype, "_addDirection", {
 	enumerable: false, writable: false,
@@ -98,23 +84,23 @@ Object.defineProperty(World.View.Image.prototype, "_addDirection", {
 		vectorsArray.push(this.direction.plus(new Vector(i, i))); }
 }); 
 
-/* Returns vectors to positions containing element of 'elementType' */
-World.View.Image.prototype.reachable = function(elementType) {
+/* Returns vectors to positions containing element of 'elementTypes' */
+World.View.Image.prototype.reachable = function(elementTypes) {
 	var vectors = [];
 	for (var i = 0; i < this.image.length; ++i) {
-		if (World.Elements.hasType(this.image[i], elementType))
+		if (Elems.hasTypes(this.image[i], elementTypes))
 			this._addDirection(vectors, i);
-		else if (this.isSolid(i))
+		else if (Elems.isSolid(this.image[i]))
 			break;
 	}
 	return vectors;
 };
 
-/* Returns vectors to positions containing element of 'elementType' */
-World.View.Image.prototype.visible = function(elementType) {
+/* Returns vectors to positions containing element of 'elementTypes' */
+World.View.Image.prototype.visible = function(elementTypes) {
 	var vectors = [];
 	for (var i = 0; i < this.image.length; ++i) {
-		if (World.Elements.hasType(this.image[i], elementType))
+		if (Elems.hasTypes(this.image[i], elementTypes))
 			this._addDirection(vectors, i);
 	}
 	return vectors;
@@ -124,7 +110,7 @@ World.View.Image.prototype.visible = function(elementType) {
 World.View.Image.prototype.possibleMoves = function() {
 	var vectors = [];
 	for (var i = 0; i < this.image.length; ++i) {
-		if (this.image[i] === undefined || this.isSolid(i))
+		if (this.image[i] === undefined || Elems.isSolid(this.image[i]))
 			break;
 		else this._addDirection(vectors, i);
 	}

@@ -39,7 +39,7 @@ Elems.match = function(elements, traits) {
  * ------------------------------ */
 /* Return the number of elements that satisfy the given test function */
 Elems._test = function(callback, elements) {
-	return elements && elements.filter(callback(elem)).length;
+	return elements && elements.filter(callback).length;
 };
 
 
@@ -48,14 +48,14 @@ Elem.hasType = function(elementType, elem) {
 	return elem && elem.types.indexOf(elementType) !== -1;
 };
 Elems.hasType = function(elements, elementType) {
-	return Elems._test(Elem.hasType.bind(null, elementType));
+	return Elems._test(Elem.hasType.bind(null, elementType), elements);
 };
 Elem.hasTypes = function(elementTypes, elem) {
 	return elem &&
 		elementTypes.every(Elem.hasType.bind(null, elementTypes));
 };
 Elems.hasTypes = function(elements, elementTypes) {
-	return Elems._test(Elem.hasTypes.bind(null, elementTypes));
+	return Elems._test(Elem.hasTypes.bind(null, elementTypes), elements);
 };
 
 /* solid */
@@ -63,7 +63,7 @@ Elem.isSolid = function(value, elem) {
 	return elem && elem.solid === (value === false ? false : true);
 };
 Elems.isSolid = function(elements, value) {
-	return Elems._test(Elem.isSolid.bind(null, value));
+	return Elems._test(Elem.isSolid.bind(null, value), elements);
 };
 
 /* blockSight */
@@ -71,5 +71,5 @@ Elem.blockSight = function(value, elem) {
 	return elem && elem.blockSight === (value === false? false : true);
 };
 Elems.blockSight = function(elements, value) {
-	return Elems._test(Elem.blockSight.bind(null, value));
+	return Elems._test(Elem.blockSight.bind(null, value), elements);
 };

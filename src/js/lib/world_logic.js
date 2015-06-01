@@ -48,7 +48,7 @@ World.Actions = function(world) {
 			var image = actor.view.look(direction, distance);
 			/* Stop movement at first obstacle */
 			for (var i = 0; i < distance; ++i) {
-				if (image.image && !image.isSolid(i))
+				if (image.image && !Elems.isSolid(image.image[i]))
 					moveVec.add(direction);
 				else
 					break;
