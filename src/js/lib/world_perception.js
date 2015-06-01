@@ -20,9 +20,9 @@ World.View.prototype.isTrapped = function() {
 	}, this);
 };
 
-World.View.prototype.isOn = function(elementTypes) {
-	return Elems.hasTypes(
-		this.world.grid.get(this.position), elementTypes);
+World.View.prototype.isOn = function(traits) {
+	return Elems.match(
+		this.world.grid.get(this.position), traits);
 };
 
 /* Returns vectors to positions in all directions containing element
@@ -40,11 +40,11 @@ World.View.prototype.reachable = function(traits, distance) {
 
 /* Returns vectors to positions in all directions containing element
  *  of 'elementType' */
-World.View.prototype.visible = function(elementType) {
+World.View.prototype.visible = function(traits) {
 	var vectors = [];
 	var self;
 	Direction.forEach(function(direction) {
-		vectors.concat(self.look(direction).visible(elementType));
+		vectors.concat(self.look(direction).visible(traits));
 	});
 	return vectors;
 };
@@ -96,11 +96,11 @@ World.View.Image.prototype.reachable = function(traits) {
 	return vectors;
 };
 
-/* Returns vectors to positions containing element of 'elementTypes' */
-World.View.Image.prototype.visible = function(elementTypes) {
+/* Returns vectors to positions containing element matching 'traits' */
+World.View.Image.prototype.visible = function(traits) {
 	var vectors = [];
 	for (var i = 0; i < this.image.length; ++i) {
-		if (Elems.hasTypes(this.image[i], elementTypes))
+		if (Elems.match(this.image[i], traits))
 			this._addDirection(vectors, i);
 	}
 	return vectors;
