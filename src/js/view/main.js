@@ -49,3 +49,17 @@ function toggleAnimation(worlds) {
 /* [ Start animation ]
  * ============================== */
 startAnimation(worlds);
+
+/* =Keyboard events
+ * ------------------------------------------------------------ */
+function keyEvent(event) {
+	var keyCh = String.fromCharCode(event.keyCode || event.charCode);
+
+	/* Actions */
+	switch(keyCh) {
+		case " ": /* [space] */
+			toggleAnimation(worlds); break;
+	}
+}
+
+document.body.addEventListener("keydown", keyEvent);
