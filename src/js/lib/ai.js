@@ -26,14 +26,16 @@ Ai.prototype.keepMoving = function() {
  * @param {Direction} defaultDirection Direction in which to move if
  *   no matching element is found
  * @return {Vector} The move vector applied, or null */
-Ai.prototype.moveToward = function(elementType, defaultDirection) {
-	var reachable = this.actor.view.reachable(elementType);
+Ai.prototype.moveToward = function(traits, defaultDirection) {
+	var reachable = this.actor.view.reachable(traits);
 	shuffleArray(reachable); /* Avoid predictable resolution */
 	var moveVec = World.View.closest(reachable) || defaultDirection;
 	return this.world.actions.move(this.actor, moveVec);
 };
 
-Ai.prototype.moveAlong = function(elementType, defaultDirection) {
+Ai.prototype.moveAlong = function(traits, defaultDirection) {
 	if (!defaultDirection)
 		defaultDirection = this.dir || Direction.random();
+
+	this.moveToward({ types: ["nature" ] });
 };
