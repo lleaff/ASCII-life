@@ -9,13 +9,13 @@ var legend = (function() {
 	var legend = {
 		EmptySpace: {
 			name:		"emptySpace",
-			type:		[ "floor" ],
+			types:		[ "floor" ],
 			ch:			" ",
 		},
 
 		Wall: {
 			name:		"wall",
-			type:		[ "obstacle" ],
+			types:		[ "obstacle" ],
 			ch:			"#",
 			solid:		true,
 			blockSight:	true,
@@ -23,19 +23,19 @@ var legend = (function() {
 
 		Plant: {
 			name:		"plant",
-			type:		[ "vegetal" ],
+			types:		[ "vegetal" ],
 			ch:			"+"
 		},
 
 		Flower: {
 			name:		"flower",
-			type:		[ "vegetal" ],
+			types:		[ "vegetal" ],
 			ch:			"*"
 		},
 
 		Critter: {
 			name:		"critter",
-			type:		[ "animal" ],
+			types:		[ "animal" ],
 			ch:			"o",
 			solid:		true,
 			speed:		1,
@@ -44,7 +44,7 @@ var legend = (function() {
 
 		BouncingCriter: {
 			name:		"bouncingCriter",
-			type:		[ "animal" ],
+			types:		[ "animal" ],
 			ch:			"@",
 			solid:		true,
 			act:		bouncingCriterAct,
@@ -54,7 +54,7 @@ var legend = (function() {
 
 		WallHugger: {
 			name:		"wallHugger",
-			type:		[ "animal" ],
+			types:		[ "animal" ],
 			ch:			"~",
 			solid:		true,
 			act:		wallHuggerAct,
