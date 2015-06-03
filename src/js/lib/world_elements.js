@@ -47,27 +47,28 @@ Elems._test = function(callback, elements) {
 Elem.hasType = function(elementType, elem) {
 	return elem && elem.types.indexOf(elementType) !== -1;
 };
-Elems.hasType = function(elements, elementType) {
-	return Elems._test(Elem.hasType.bind(null, elementType), elements);
+Elems.hasType = function(elements, elementTypes) {
+	return Elems._test(Elem.hasType.bind(null, elementTypes), elements);
 };
-Elem.hasTypes = function(elementTypes, elem) {
+Elem.hasTypes = function(elem, elementTypes) {
 	return elem &&
-		elementTypes.every(Elem.hasType.bind(null, elementTypes));
+		elementTypes.every(Elem.hasType.bind(null, elem));
 };
 Elems.hasTypes = function(elements, elementTypes) {
 	return Elems._test(Elem.hasTypes.bind(null, elementTypes), elements);
 };
 
 /* solid */
-Elem.isSolid = function(value, elem) {
+Elem.isSolid = function(elem, value) {
 	return elem && elem.solid === (value === false ? false : true);
 };
 Elems.isSolid = function(elements, value) {
-	return Elems._test(Elem.isSolid.bind(null, value), elements);
+	return Elems._test(
+		function(elem) { return Elem.isSolid(elem, value); }, elements);
 };
 
 /* blockSight */
-Elem.blockSight = function(value, elem) {
+Elem.blockSight = function(elem, value) {
 	return elem && elem.blockSight === (value === false? false : true);
 };
 Elems.blockSight = function(elements, value) {
