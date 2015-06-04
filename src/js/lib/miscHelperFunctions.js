@@ -1,3 +1,28 @@
+/* =Functions
+ * ------------------------------------------------------------ */
+/* Same as Function.prototype.bind, except you can specify a "hole" in
+ *  the predefined arguments with the '___' object */
+window.___ = {};
+Function.prototype.partial = function(thisArg) {
+	var args = arguments;
+	var fn = this;
+	return function() {
+		var argList = [];
+		for (var i = 1, j = 0;
+			 i < args.length || j < arguments.length; ++i) {
+			if (args[i] === window.___) {
+				argList[i - 1] = arguments[j++];
+			} else {
+				/* If all the arguments from 'args' have been added,
+				 *  begin taking the excess arguments */
+				argList[i - 1] = i >= args.length ?
+					arguments[j++] : args[i];
+			}
+		}
+		return fn.apply(thisArg, argList);
+	};
+};
+
 /* =Array
  * ------------------------------------------------------------ */
 function shuffleArray(arr) {
