@@ -44,18 +44,20 @@ Elems._test = function(callback, elements) {
 
 
 /* types */
-Elem.hasType = function(elementType, elem) {
-	return elem && elem.types.indexOf(elementType) !== -1;
+Elem.hasType = function(elem, elementTypes) {
+	return elem && elem.types.indexOf(elementTypes) !== -1;
 };
 Elems.hasType = function(elements, elementTypes) {
-	return Elems._test(Elem.hasType.bind(null, elementTypes), elements);
+	return Elems._test(
+		Elem.hasType.partial(null, ___, elementTypes), elements);
 };
 Elem.hasTypes = function(elem, elementTypes) {
 	return elem &&
 		elementTypes.every(Elem.hasType.bind(null, elem));
 };
 Elems.hasTypes = function(elements, elementTypes) {
-	return Elems._test(Elem.hasTypes.bind(null, elementTypes), elements);
+	return Elems._test(
+		Elem.hasTypes.partial(null, ___, elementTypes), elements);
 };
 
 /* solid */
@@ -64,7 +66,7 @@ Elem.isSolid = function(elem, value) {
 };
 Elems.isSolid = function(elements, value) {
 	return Elems._test(
-		function(elem) { return Elem.isSolid(elem, value); }, elements);
+		Elem.isSolid.partial(null, ___, value), elements);
 };
 
 /* blockSight */
